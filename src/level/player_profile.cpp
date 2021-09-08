@@ -148,14 +148,14 @@ bool CPlayerProfile::Create()
 {
     if (!CResourceManager::DirectoryExists(GetSaveDir()))
     {
-        return CResourceManager::CreateNewDirectory(GetSaveDir());
+        return CResourceManager::CreateDirectory(GetSaveDir());
     }
     return true;
 }
 
 bool CPlayerProfile::Delete()
 {
-    return CResourceManager::RemoveExistingDirectory(GetSaveDir());
+    return CResourceManager::RemoveDirectory(GetSaveDir());
 }
 
 std::string CPlayerProfile::GetName()
@@ -507,7 +507,7 @@ void CPlayerProfile::SaveScene(std::string dir, std::string info)
 {
     if (!CResourceManager::DirectoryExists(dir))
     {
-        CResourceManager::CreateNewDirectory(dir);
+        CResourceManager::CreateDirectory(dir);
     }
 
     CRobotMain::GetInstancePointer()->IOWriteScene(dir + "/data.sav", dir + "/cbot.run", dir + "/screen.png", info.c_str());
@@ -568,7 +568,7 @@ bool CPlayerProfile::DeleteScene(std::string dir)
 {
     if (CResourceManager::DirectoryExists(dir))
     {
-        return CResourceManager::RemoveExistingDirectory(dir);
+        return CResourceManager::RemoveDirectory(dir);
     }
     return false;
 }

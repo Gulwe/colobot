@@ -12,9 +12,7 @@
 #define HAVE_CFLOCALECOPYCURRENT 1
 #endif
 
-#ifndef GLEW_STATIC
 #cmakedefine GLEW_STATIC
-#endif
 
 #cmakedefine OPENAL_SOUND
 

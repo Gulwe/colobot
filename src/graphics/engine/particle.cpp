@@ -1235,7 +1235,7 @@ void CParticle::FrameParticle(float rTime)
                     }
                     else
                     {
-                        if (object->GetType() != OBJECT_HUMAN)
+                        if (object->GetType() != OBJECT_HUMAN || object->GetType() != OBJECT_TECH) 
                             Play(SOUND_TOUCH, m_particle[i].pos, 1.0f);
 
                         if (object->Implements(ObjectInterfaceType::Damageable))

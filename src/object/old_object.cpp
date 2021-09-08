@@ -407,7 +407,7 @@ bool COldObject::DamageObject(DamageType type, float force, CObject* killer)
         {
             // Calculate the shield lost by the explosion
             loss = force * magnifyDamage;
-            if (m_type == OBJECT_HUMAN) loss /= 2.5f; // Me is more resistant
+            if (m_type == OBJECT_HUMAN || m_type == OBJECT_TECH) loss /= 2.5f; // Me is more resistant
             if (loss > 1.0f) loss = 1.0f;
 
             // Decreases the the shield
@@ -468,7 +468,7 @@ void COldObject::DestroyObject(DestructionType type, CObject* killer)
     assert(Implements(ObjectInterfaceType::Destroyable));
 
     if(type == DestructionType::NoEffect) assert(!!"DestructionType::NoEffect should not be passed to DestroyObject()!");
-    assert(type != DestructionType::Drowned || m_type == OBJECT_HUMAN);
+    assert(type != DestructionType::Drowned || m_type == OBJECT_HUMAN || m_type == OBJECT_TECH );
 
     if ( IsDying() )  return;
 
@@ -808,6 +808,7 @@ void COldObject::SetType(ObjectType type)
         m_implementedInterfaces[static_cast<int>(ObjectInterfaceType::Shielded)] = false;
     }
     else if (m_type == OBJECT_HUMAN ||
+         m_type == OBJECT_TECH     ||
          m_type == OBJECT_MOBILEfa ||
          m_type == OBJECT_MOBILEta ||
          m_type == OBJECT_MOBILEwa ||
@@ -909,7 +910,7 @@ void COldObject::SetType(ObjectType type)
     }
 
     // TODO: #TooMuchHacking
-    m_implementedInterfaces[static_cast<int>(ObjectInterfaceType::ShieldedAutoRegen)] = (m_type == OBJECT_HUMAN);
+    m_implementedInterfaces[static_cast<int>(ObjectInterfaceType::ShieldedAutoRegen)] = (m_type == OBJECT_HUMAN || m_type == OBJECT_TECH);
 
     // TODO: Hacking in progress...
     if ( m_type == OBJECT_STONE   ||
@@ -934,6 +935,7 @@ void COldObject::SetType(ObjectType type)
 
     // TODO: You have been hacked!
     if (m_type == OBJECT_HUMAN    ||
+        m_type == OBJECT_TECH     ||
         m_type == OBJECT_TOTO     ||
         m_type == OBJECT_MOBILEfa ||
         m_type == OBJECT_MOBILEta ||
@@ -2234,7 +2236,7 @@ bool COldObject::EventProcess(const Event &event)
 
 bool COldObject::EventFrame(const Event &event)
 {
-    if ( m_type == OBJECT_HUMAN && m_main->GetMainMovie() == MM_SATCOMopen )
+    if ( (m_type == OBJECT_HUMAN || m_type == OBJECT_TECH) && m_main->GetMainMovie() == MM_SATCOMopen )
     {
         UpdateTransformObject();
         return true;
@@ -3248,7 +3250,7 @@ void COldObject::StopProgram()
     m_physics->SetMotorSpeedY(0.0f);
     m_physics->SetMotorSpeedZ(0.0f);
 
-    if (m_type != OBJECT_HUMAN) // Be sure not to stop the death animation!
+    if (m_type != OBJECT_HUMAN ) // Be sure not to stop the death animation!
     {
         m_motion->SetAction(-1);
     }
@@ -3288,13 +3290,13 @@ void COldObject::SetTraceWidth(float width)
 
 bool COldObject::IsRepairable()
 {
-    if (m_type == OBJECT_HUMAN) return false;
+    if (m_type == OBJECT_HUMAN || m_type == OBJECT_TECH) return false;
     return true;
 }
 
 float COldObject::GetShieldFullRegenTime()
 {
-    if (m_type == OBJECT_HUMAN) return 120.0f;
+    if (m_type == OBJECT_HUMAN || m_type == OBJECT_TECH) return 120.0f;
     assert(false);
     return 0.0f;
 }
