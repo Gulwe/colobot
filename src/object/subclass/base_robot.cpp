@@ -86,8 +86,6 @@ std::unique_ptr<CBaseRobot> CBaseRobot::Create(
     {
         motion = MakeUnique<CMotionVehicle>(obj.get());
     }
-    
- 
 
     motion->SetPhysics(physics.get());
     physics->SetMotion(motion.get());

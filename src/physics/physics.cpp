@@ -822,7 +822,7 @@ void CPhysics::MotorUpdate(float aTime, float rTime)
         }
     }
 
-    if ( (m_object->GetType() == OBJECT_HUMAN || m_object->GetType() == OBJECT_TECH )  && dynamic_cast<CDestroyableObject&>(*m_object).GetDying() == DeathType::Dead )  // dead man?
+    if ( m_object->GetType() == OBJECT_HUMAN && dynamic_cast<CDestroyableObject&>(*m_object).GetDying() == DeathType::Dead )  // dead man?
     {
         motorSpeed.x = 0.0f;
         motorSpeed.z = 0.0f;
@@ -1794,18 +1794,10 @@ void CPhysics::WaterFrame(float aTime, float rTime)
 
     if ( !m_object->GetDetectable() )  return;
 
-    if ((type == OBJECT_HUMAN || type == OBJECT_TECH )&& m_object->GetOption() != 0 )  // human without a helmet?)
+    if (type == OBJECT_HUMAN && m_object->GetOption() != 0 )  // human without a helmet?)
     {
-        if(type == OBJECT_TECH)
-        {
-        assert(m_object->Implements(ObjectInterfaceType::Destroyable));
-        dynamic_cast<CDestroyableObject*>(m_object)->DestroyObject(DestructionType::ExplosionWater); 
-        }
-        else
-        {    
         assert(m_object->Implements(ObjectInterfaceType::Destroyable));
         dynamic_cast<CDestroyableObject*>(m_object)->DestroyObject(DestructionType::Drowned);
-        }
     }
     else if ( m_water->GetLava() ||
          type == OBJECT_MOBILEfa || // TODO: A function in CObject to check if object is waterproof or not
@@ -2608,7 +2600,7 @@ int CPhysics::ObjectAdapt(const Math::Vector &pos, const Math::Vector &angle)
                     {
                         m_sound->Play(crashSphere.sound, m_object->GetPosition(), volume);
                     }
-                    if ( (iType == OBJECT_HUMAN || iType == OBJECT_TECH)&& volume > 0.5f )
+                    if ( iType == OBJECT_HUMAN && volume > 0.5f )
                     {
                         m_sound->Play(SOUND_AIE, m_object->GetPosition(), volume);
                     }
@@ -2845,7 +2837,6 @@ int CPhysics::ExploHimself(ObjectType iType, ObjectType oType, float force)
     if ( force > 25.0f )
     {
         if ( iType == OBJECT_HUMAN    ||
-             iType == OBJECT_TECH     ||
              iType == OBJECT_MOBILEwa ||
              iType == OBJECT_MOBILEta ||
              iType == OBJECT_MOBILEfa ||
@@ -3091,7 +3082,7 @@ void CPhysics::MotorParticle(float aTime, float rTime)
          type == OBJECT_WORM     ||
          type == OBJECT_APOLLO2  )  return;
 
-    if ( type == OBJECT_HUMAN || type == OBJECT_TECH)  delay = 3.0f;
+    if ( type == OBJECT_HUMAN )  delay = 3.0f;
     else                         delay = 8.0f;
     if ( m_bSwim && m_timeUnderWater < delay )  // bubbles when entering water?
     {
@@ -3118,7 +3109,7 @@ void CPhysics::MotorParticle(float aTime, float rTime)
 
     level = m_water->GetLevel();
     pos = m_object->GetPosition();
-    if ( type == OBJECT_HUMAN || type == OBJECT_TECH)  pos.y -= 2.0f;
+    if ( type == OBJECT_HUMAN )  pos.y -= 2.0f;
     if ( pos.y < level )  // underwater?
     {
         m_absorbWater += rTime*(1.0f/2.0f);  // gets wet

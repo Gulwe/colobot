@@ -341,7 +341,6 @@ bool CAutoNuclearPlant::SearchVehicle()
     {
         ObjectType type = obj->GetType();
         if ( type != OBJECT_HUMAN    &&
-             type != OBJECT_TECH     &&
              type != OBJECT_MOBILEfa &&
              type != OBJECT_MOBILEta &&
              type != OBJECT_MOBILEwa &&

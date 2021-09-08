@@ -1298,7 +1298,7 @@ Error CAutoBase::CheckCloseDoor()
                 return ERR_BASE_DLOCK;
             }
 
-            if ( (type == OBJECT_HUMAN || type == OBJECT_TECH) && 
+            if ( type == OBJECT_HUMAN &&
                  dist+oRad > 32.0f    )
             {
                 return ERR_BASE_DHUMAN;

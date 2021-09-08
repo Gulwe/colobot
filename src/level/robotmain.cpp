@@ -504,12 +504,12 @@ void CRobotMain::ChangePhase(Phase phase)
                     GetLogger()->Info("Trying to restore pre-crash state...\n");
                     assert(m_playerProfile != nullptr);
                     m_playerProfile->LoadScene("../../crashsave");
-                    CResourceManager::RemoveDirectory("crashsave");
+                    CResourceManager::RemoveExistingDirectory("crashsave");
                 },
                 [&]()
                 {
                     GetLogger()->Info("Not restoring pre-crash state\n");
-                    CResourceManager::RemoveDirectory("crashsave");
+                    CResourceManager::RemoveExistingDirectory("crashsave");
                 }
             );
         }
@@ -1533,7 +1533,7 @@ void CRobotMain::StartDisplayInfo(int index, bool movie)
     if (m_cmdEdit || m_satComLock || m_lockedSatCom) return;
 
     CObject* obj = GetSelect();
-    bool human = obj != nullptr && (obj->GetType() == OBJECT_HUMAN || obj->GetType() == OBJECT_TECH ) ;
+    bool human = obj != nullptr && obj->GetType() == OBJECT_HUMAN;
 
     if (!m_editLock && movie && !m_movie->IsExist() && human)
     {
@@ -1857,7 +1857,6 @@ void CRobotMain::SelectOneObject(CObject* obj, bool displayError)
 
     ObjectType type = obj->GetType();
     if ( type == OBJECT_HUMAN    ||
-         type == OBJECT_TECH     ||
          type == OBJECT_MOBILEfa ||
          type == OBJECT_MOBILEta ||
          type == OBJECT_MOBILEwa ||
@@ -3414,7 +3413,7 @@ void CRobotMain::CreateScene(bool soluce, bool fixScene, bool resetObject)
                     CObject* obj = m_objMan->CreateObject(params);
                     obj->Read(line.get());
 
-                    if (m_fixScene && (obj->GetType() == OBJECT_HUMAN || obj->GetType() == OBJECT_TECH ))
+                    if (m_fixScene && obj->GetType() == OBJECT_HUMAN)
                     {
                         assert(obj->Implements(ObjectInterfaceType::Movable));
                         CMotion* motion = dynamic_cast<CMovableObject&>(*obj).GetMotion();
@@ -5767,7 +5766,7 @@ void CRobotMain::AutosaveRotate()
     std::sort(autosaves.begin(), autosaves.end(), std::less<std::string>());
     for (int i = 0; i < static_cast<int>(autosaves.size()) - m_autosaveSlots + 1; i++)
     {
-        CResourceManager::RemoveDirectory(m_playerProfile->GetSaveDir() + "/" + autosaves[i]);
+        CResourceManager::RemoveExistingDirectory(m_playerProfile->GetSaveDir() + "/" + autosaves[i]);
     }
 }
 

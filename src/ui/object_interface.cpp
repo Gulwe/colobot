@@ -878,7 +878,6 @@ bool CObjectInterface::CreateInterface(bool bSelect)
          type == OBJECT_MOBILErp ||
          type == OBJECT_MOBILEst ||
          type == OBJECT_MOBILEdr ||
-         type == OBJECT_TECH     ||
          type == OBJECT_MOTHER   ||
          type == OBJECT_ANT      ||
          type == OBJECT_SPIDER   ||
@@ -933,7 +932,7 @@ bool CObjectInterface::CreateInterface(bool bSelect)
 
         if ( m_object->Implements(ObjectInterfaceType::JetFlying) )
         {
-            if ( type != OBJECT_HUMAN || type != OBJECT_TECH || m_object->GetOption() != 2 ) // if not Me without a jetpack, display reactor temperature
+            if ( type != OBJECT_HUMAN || m_object->GetOption() != 2 ) // if not Me without a jetpack, display reactor temperature
             {
                 pos.x = ox+sx*15.3f;
                 pos.y = oy+sy*0;
@@ -944,7 +943,8 @@ bool CObjectInterface::CreateInterface(bool bSelect)
         }
     }
 
-    if ( (type == OBJECT_HUMAN || type == OBJECT_TECH) &&
+    if ( (type == OBJECT_HUMAN ||
+          type == OBJECT_TECH  ) &&
          !m_main->GetPlusExplorer() )
     {
         pos.x = ox+sx*7.7f;
@@ -952,7 +952,7 @@ bool CObjectInterface::CreateInterface(bool bSelect)
         pw->CreateButton(pos, dim, 31, EVENT_OBJECT_HTAKE);
         DefaultEnter(pw, EVENT_OBJECT_HTAKE);
     }
-    
+
     if ( (type == OBJECT_MOBILEfa ||
           type == OBJECT_MOBILEta ||
           type == OBJECT_MOBILEwa ||
@@ -987,11 +987,8 @@ bool CObjectInterface::CreateInterface(bool bSelect)
         DefaultEnter(pw, EVENT_OBJECT_MTAKE);
     }
 
-    if ( (type == OBJECT_HUMAN || type == OBJECT_TECH )&& !m_main->GetPlusExplorer())  // builder?
+    if ( type == OBJECT_HUMAN && !m_main->GetPlusExplorer())  // builder?
     {
-        
-        if(type != OBJECT_TECH)
-        {
         pos.x  =   1.0f/640.0f;
         pos.y  =   4.0f/480.0f;
         ddim.x = 212.0f/640.0f;
@@ -1070,7 +1067,7 @@ bool CObjectInterface::CreateInterface(bool bSelect)
         pos.y = oy+sy*0.1f;
         pw->CreateButton(pos, ddim, 128+47, EVENT_OBJECT_BSAFE);
         DeadInterface(pw, EVENT_OBJECT_BSAFE, m_main->CanBuild(OBJECT_SAFE, m_object->GetTeam()));
-    }
+
         if ( m_main->IsBuildingEnabled(BUILD_GFLAT) )
         {
             pos.x = ox+sx*9.0f;
@@ -1446,21 +1443,18 @@ bool CObjectInterface::CreateInterface(bool bSelect)
         pw->CreateGroup(pos, ddim, 16, EVENT_OBJECT_CORNERdr);
     }
 
-    if ( (type == OBJECT_TECH     ||
-          type == OBJECT_MOBILEfb ||
+    if ( (type == OBJECT_MOBILEfb ||
           type == OBJECT_MOBILEtb ||
           type == OBJECT_MOBILEwb ||
           type == OBJECT_MOBILEib) &&  // builder?
          !m_object->GetTrainer() )
     {
-        if(type != OBJECT_TECH )
-        {
         pos.x = ox+sx*7.7f;
         pos.y = oy+sy*0.5f;
         pb = pw->CreateButton(pos, dim, 192+4, EVENT_OBJECT_BUILD);
         pb->SetImmediat(true);
         DefaultEnter(pw, EVENT_OBJECT_BUILD);
-        }
+
         pos.x = 0.0f;
         pos.y = oy+sy*2.6f;
         ddim.x = 214.5f/640.0f;
@@ -1831,7 +1825,6 @@ void CObjectInterface::UpdateInterface()
         EnableInterface(pw, EVENT_OBJECT_BINFO,     bEnable);
         EnableInterface(pw, EVENT_OBJECT_BSAFE,     bEnable);
     }
-    
 
     if ( type == OBJECT_HUMAN    ||  // can create flags?
          type == OBJECT_TECH     ||

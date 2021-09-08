@@ -254,7 +254,6 @@ bool CPyro::Create(PyroType type, CObject* obj, float force)
         if ( type == PT_DEADG )
         {
             m_sound->Play(SOUND_DEADg, m_pos);
-           
         }
         if ( type == PT_DEADW )
         {
@@ -291,7 +290,6 @@ bool CPyro::Create(PyroType type, CObject* obj, float force)
     }
     if ( m_type == PT_DEADW )
     {
-        
         assert(m_object->Implements(ObjectInterfaceType::Destroyable));
         dynamic_cast<CDestroyableObject&>(*m_object).SetDying(DeathType::Dead);
 
@@ -301,7 +299,6 @@ bool CPyro::Create(PyroType type, CObject* obj, float force)
         m_camera->StartCentering(m_object, Math::PI*0.5f, 99.9f, 0.0f, 3.0f);
         m_camera->StartOver(CAM_OVER_EFFECT_FADEOUT_BLACK, m_pos, 1.0f);
         m_speed = 1.0f/10.0f;
-
         return true;
     }
 

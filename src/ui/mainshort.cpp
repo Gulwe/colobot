@@ -209,7 +209,6 @@ int CMainShort::GetShortcutIcon(ObjectType type)
         switch ( type )
         {
             case OBJECT_HUMAN:      icon =  8; break;
-            case OBJECT_TECH:       icon =  8; break;
             case OBJECT_MOBILEfa:   icon = 11; break;
             case OBJECT_MOBILEta:   icon = 10; break;
             case OBJECT_MOBILEwa:   icon =  9; break;

@@ -232,7 +232,6 @@ std::string GetHelpFilename(ObjectType type)
     if ( type == OBJECT_MOBILEpr    )  helpfile = "object/bottr";
     if ( type == OBJECT_APOLLO2     )  helpfile = "object/lrv";
     if ( type == OBJECT_HUMAN       )  helpfile = "object/human";
-    if ( type == OBJECT_TECH        )  helpfile = "object/tech";
     if ( type == OBJECT_MOTHER      )  helpfile = "object/mother";
     if ( type == OBJECT_EGG         )  helpfile = "object/egg";
     if ( type == OBJECT_ANT         )  helpfile = "object/ant";

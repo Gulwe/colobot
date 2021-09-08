@@ -171,7 +171,6 @@ void CMotionHuman::Create(Math::Vector pos, float angle, ObjectType type,
     {
         if (option == 0)  // head in helmet?
         {
-            
             face = m_main->GetGamerFace();
             sprintf(filename, "human2c%d.mod", face+1);
             modelManager->AddModelReference(filename, false, rank);
@@ -186,23 +185,7 @@ void CMotionHuman::Create(Math::Vector pos, float angle, ObjectType type,
     }
     else if (type == OBJECT_TECH)
     {
-        if (option == 0)  // head in helmet?
-        {
-                    face = m_main->GetGamerFace();
-                    sprintf(filename, "human2c%d.mod", face+2);
-                    // modelManager->AddModelReference("human2t.mod", false, rank);
-                    modelManager->AddModelReference(filename, false, rank);
-        }
-        else if (option == 1 ||  // head without helmet?
-                 option == 2)    // without a backpack?
-        {
-            face = m_main->GetGamerFace();
-            sprintf(filename, "human2h%d.mod", face+2);
-            modelManager->AddModelReference(filename, false, rank);
-        }
-        
-
-       
+        modelManager->AddModelReference("human2t.mod", false, rank);
     }
 
     m_object->SetPartPosition(1, Math::Vector(0.0f, 2.7f, 0.0f));
@@ -214,7 +197,7 @@ void CMotionHuman::Create(Math::Vector pos, float angle, ObjectType type,
 
     // Creates the glasses.
     glasses = m_main->GetGamerGlasses();
-    if ( glasses != 0 && (type == OBJECT_HUMAN || type == OBJECT_TECH ))
+    if ( glasses != 0 && type == OBJECT_HUMAN )
     {
         m_glassesRank = m_engine->CreateObject();
         m_engine->SetObjectType(m_glassesRank, Gfx::ENG_OBJTYPE_DESCENDANT);
@@ -531,7 +514,7 @@ void CMotionHuman::CreatePhysics(ObjectType type)
     character->wheelRight = 4.0f;
     character->height     = 3.5f;
 
-    if ( type == OBJECT_HUMAN || type == OBJECT_TECH)
+    if ( type == OBJECT_HUMAN )
     {
         m_physics->SetLinMotionX(MO_ADVSPEED, 50.0f);
         m_physics->SetLinMotionX(MO_RECSPEED, 35.0f);

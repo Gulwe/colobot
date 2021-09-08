@@ -328,7 +328,6 @@ bool CTaskBuild::EventProcess(const Event &event)
         switch(m_object->GetType())
         {
             case OBJECT_HUMAN:
-            case OBJECT_TECH:
                 mat = m_object->GetWorldMatrix(14);
                 break;
 
@@ -513,7 +512,7 @@ Error CTaskBuild::IsEnded()
         if ( m_progress < 1.0f )  return ERR_CONTINUE;
 
         m_motion->SetAction(MHS_FIRE);  // shooting position
-        if (m_object->GetType() == OBJECT_HUMAN || m_object->GetType() == OBJECT_TECH)
+        if (m_object->GetType() == OBJECT_HUMAN)
         {
             m_object->SetObjectParent(14, 4);
             m_object->SetPartPosition(14, Math::Vector(0.6f, 0.1f, 0.3f));
